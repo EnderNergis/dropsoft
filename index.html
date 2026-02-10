@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <title>Ender‘s IT Consulting – QA Engineer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <style>
+    :root {
+      --accent: #4f46e5;
+      --bg-dark: #020617;
+      --text-light: #e5e7eb;
+      --text-muted: #94a3b8;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg-dark);
+      color: var(--text-light);
+      overflow-x: hidden;
+    }
+
+    /* ===== MATRIX BACKGROUND ===== */
+    canvas {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+    }
+
+    /* ===== CONTENT ===== */
+    header {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0 10%;
+      backdrop-filter: blur(4px);
+    }
+
+    header h1 {
+      font-size: clamp(3rem, 6vw, 5rem);
+      line-height: 1.1;
+      background: linear-gradient(90deg, #e0e7ff, #818cf8);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 24px;
+    }
+
+    header p {
+      font-size: 1.3rem;
+      max-width: 720px;
+      color: var(--text-muted);
+    }
+
+    section {
+      padding: 120px 10%;
+      background: linear-gradient(
+        to bottom,
+        rgba(2,6,23,0.4),
+        rgba(2,6,23,0.9)
+      );
+    }
+
+    h2 {
+      font-size: 2.4rem;
+      margin-bottom: 24px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 32px;
+      margin-top: 40px;
+    }
+
+    .card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px;
+      padding: 32px;
+      backdrop-filter: blur(12px);
+      transition: transform .4s ease, box-shadow .4s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 20px 60px rgba(99,102,241,.25);
+    }
+
+    .card h3 {
+      margin-bottom: 12px;
+      color: #c7d2fe;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 140px 10%;
+      background: radial-gradient(
+        circle at center,
+        rgba(99,102,241,0.25),
+        rgba(2,6,23,0.95)
+      );
+    }
+
+    .cta h2 {
+      font-size: 3rem;
+      margin-bottom: 20px;
+    }
+
+    .cta a {
+      display: inline-block;
+      margin: 10px;
+      padding: 16px 40px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #6366f1, #4f46e5);
+      color: white;
+      text-decoration: none;
+      font-weight: 600;
+      transition: transform .3s ease, box-shadow .3s ease;
+    }
+
+    .cta a:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 40px rgba(99,102,241,.6);
+    }
+
+    footer {
+      padding: 60px 10%;
+      font-size: .9rem;
+      color: var(--text-muted);
+      background: #020617;
+    }
+  </style>
+</head>
+
+<body>
+
+<canvas id="matrix"></canvas>
+
+<header>
+  <h1>Ender‘s IT Consulting</h1>
+  <p>
+    QA Engineer Freelancer für moderne Produkt-Teams.<br>
+    Embedded Quality Assurance, Testautomatisierung & schnelle Feedbackzyklen
+    in einer vernetzten digitalen Welt.
+  </p>
+</header>
+
+<section>
+  <h2>Was ich tue</h2>
+  <div class="cards">
+    <div class="card">
+      <h3>Testautomatisierung</h3>
+      <p>Skalierbare UI-, API- und Integrationstests mit Fokus auf Wartbarkeit.</p>
+    </div>
+    <div class="card">
+      <h3>Embedded QA</h3>
+      <p>QA als Teil des Teams – Ownership statt Gatekeeping.</p>
+    </div>
+    <div class="card">
+      <h3>CI/CD Quality</h3>
+      <p>Schnelle Feedbackzyklen und stabile Releases durch Automation.</p>
+    </div>
+  </div>
+</section>
+
+<section class="cta">
+  <h2>Let’s build quality</h2>
+  <p>20 Minuten. Klarheit. Keine Verpflichtung.</p>
+  <a href="https://calendly.com/DEIN-CALENDLY-LINK" target="_blank">Termin buchen</a>
+</section>
+
+<footer>
+  © Ender Nergis · Ender‘s IT Consulting · QA Engineer Freelancer
+</footer>
+
+<script>
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+
+  function resize() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  window.addEventListener("resize", resize);
+  resize();
+
+  const chars = "01";
+  const fontSize = 14;
+  const columns = () => Math.floor(canvas.width / fontSize);
+  let drops = [];
+
+  function init() {
+    drops = Array(columns()).fill(1);
+  }
+  init();
+
+  function draw() {
+    ctx.fillStyle = "rgba(2,6,23,0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    ctx.fillStyle = "#6366f1";
+    ctx.font = fontSize + "px monospace";
+
+    for (let i = 0; i < drops.length; i++) {
+      const text = chars[Math.floor(Math.random() * chars.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+        drops[i] = 0;
+      }
+      drops[i]++;
+    }
+  }
+
+  setInterval(draw, 50);
+</script>
+
+</body>
+</html>
